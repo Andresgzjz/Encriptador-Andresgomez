@@ -29,10 +29,10 @@ document.addEventListener("DOMContentLoaded", function() {
             .replace(/ufat/g, "u");
     }
 
-
+    // Validar texto
     function esTextoValido(texto) {
-      
-        const regex = /^[a-z]+$/;
+        // Regex para letras minúsculas y espacios
+        const regex = /^[a-z\s]+$/;
         return regex.test(texto);
     }
 
@@ -42,51 +42,79 @@ document.addEventListener("DOMContentLoaded", function() {
         document.execCommand("copy");
     }
 
-    
+    // Actualizar visibilidad del contenedor y área de texto
     function actualizarVisibilidad(mensaje = "") {
-        contenedorEncriptado.style.display = mensaje ? "block" : "none";
-        textoEncriptado.style.display = mensaje ? "none" : "block"; 
-        botonCopiar.style.visibility = mensaje ? "hidden" : "visible"; 
         if (mensaje) {
+            contenedorEncriptado.style.display = "block";
+            textoEncriptado.style.display = "none";
+            botonCopiar.style.visibility = "hidden";
             mensajeError.textContent = mensaje;
             contenedorEncriptado.appendChild(mensajeError);
         } else {
+            contenedorEncriptado.style.display = "none";
+            textoEncriptado.style.display = "block"; 
+            botonCopiar.style.visibility = "visible"; 
             if (contenedorEncriptado.contains(mensajeError)) {
                 contenedorEncriptado.removeChild(mensajeError);
             }
         }
     }
 
+    // Restablecer estado después de un mensaje de error
+    function restablecerEstado() {
+        setTimeout(() => {
+            textoLimpio.value = ""; 
+            resultadoTextarea.value = ""; 
+            actualizarVisibilidad(); 
+        }, 5000); // 5 segundos
+    }
+
     // botón de cifrar
     botonCifrar.addEventListener("click", function() {
-        const texto = textoLimpio.value;
+        let texto = textoLimpio.value;
+        if (typeof texto !== 'string') {
+            texto = String(texto);
+        }
         if (!esTextoValido(texto)) {
             actualizarVisibilidad("No se puede cifrar dado que contiene caracteres inválidos o acentos. Por favor, intente de nuevo.");
-            setTimeout(() => {
-                actualizarVisibilidad();
-            }, 5000); // 5 segundos
+            restablecerEstado(); 
+            texto = null; 
             return;
         }
         const textoEncriptadoResultado = encriptarTexto(texto);
         resultadoTextarea.value = textoEncriptadoResultado;
         actualizarVisibilidad();
+        texto = null; 
     });
 
     // botón de descifrar
     botonDescifrar.addEventListener("click", function() {
-        const texto = textoLimpio.value;
+        let texto = textoLimpio.value;
+        if (typeof texto !== 'string') {
+            texto = String(texto);
+        }
         if (!esTextoValido(texto)) {
             actualizarVisibilidad("No se puede descifrar dado que contiene caracteres inválidos o acentos. Por favor, intente de nuevo.");
-            setTimeout(() => {
-                actualizarVisibilidad();
-            }, 20000); // 20 segundos
+            restablecerEstado();
+            texto = null; 
             return;
         }
         const textoDesencriptadoResultado = desencriptarTexto(texto);
         resultadoTextarea.value = textoDesencriptadoResultado;
         actualizarVisibilidad();
+        texto = null; 
     });
 
     // botón de copiar
     botonCopiar.addEventListener("click", copiarTexto);
+
+    // Verifica la visibilidad cuando cambia el contenido del texto limpio
+    textoLimpio.addEventListener("input", function() {
+        if (textoLimpio.value.trim() === "") {
+            contenedorEncriptado.style.display = "block";
+            textoEncriptado.style.display = "none";
+            botonCopiar.style.visibility = "hidden";
+        }
+    });
+
 });
