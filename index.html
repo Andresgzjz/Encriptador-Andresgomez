@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Krona+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Encriptador de texto</title>
+</head>
+<body>
+    <header> 
+        <img class="logo" src="/Imagenes/Logo.png" alt="Logo de alura">
+    </header>
+
+    <main>
+        <section class="area_encriptado">
+            <textarea class="texto__limpio"
+                 id="texto__limpio" 
+                 placeholder="Ingrese el texto aquí"></textarea>
+    
+           <div class="condiciones">
+                <img src="/Imagenes/Group.png" alt="Símbolo de exclamación">
+                <p>Solo letras minúsculas y sin acentos</p>  
+           </div>
+
+            <div class="areabotones">
+                <button class="boton_cifrar" id="btncifrar">Cifrar</button>
+                <button class="boton_descifrar" id="btndescifrar">Descifrar</button>  
+            </div>
+        </section>
+
+        <section class="area__desencriptado">
+         
+            <div class="contenedor__encriptado">
+                <img class="muneco" src="/Imagenes/Muñeco.png" alt="Persona con una lupa examinando diamante" id="fotomuneco"> 
+                <h2 class="titulo__salida">Ningún mensaje fue encontrado</h2>
+                <p class="parrafo__salida">Ingresa el texto que desees encriptar o desencriptar.</p>
+            </div>
+
+           
+            <div class="texto__encriptado" id="texto__encriptado" style="display: none;">
+                <textarea type="mensaje" class="resultado" readonly></textarea> 
+                <button type="submit" class="boton__copiar" style="visibility: hidden;">Copiar</button>   
+            </div>
+        </section>
+    </main>
+
+    <footer> 
+        <p class="derechos">Autor: Andres Gomez Fecha de creación: Agosto 2024</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
